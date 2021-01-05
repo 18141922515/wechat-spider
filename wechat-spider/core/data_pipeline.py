@@ -41,16 +41,3 @@ def save_article(data):
     sql = tools.make_insert_sql('wechat_article', data, insert_ignore=True)
     return db.add(sql)
 
-
-def save_article_dynamic(data):
-    log.debug(tools.dumps_json(data))
-
-    sql = tools.make_insert_sql('wechat_article_dynamic', data, insert_ignore=True)
-    db.add(sql)
-
-
-def save_article_commnet(datas: list):
-    log.debug(tools.dumps_json(datas))
-
-    sql, datas = tools.make_batch_sql('wechat_article_comment', datas)
-    db.add_batch(sql, datas)

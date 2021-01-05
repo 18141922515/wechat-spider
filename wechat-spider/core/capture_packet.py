@@ -38,15 +38,6 @@ class WechatCapture():
                 # 去掉图片
                 flow.response.text = re.sub('<img.*?>', '', flow.response.text)
 
-            elif 'mp/getappmsgext' in url:  # 阅读量 观看量
-
-                ctx.log.info('抽取阅读量 观看量')
-                deal_data.deal_article_dynamic_info(flow.request.data.content.decode('utf-8'), flow.response.text)
-
-            elif '/mp/appmsg_comment' in url:  # 评论列表
-
-                ctx.log.info('抽取评论列表')
-                deal_data.deal_comment(url, flow.response.text)
 
         except Exception as e:
             # log.exception(e)

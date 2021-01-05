@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from w3lib.html import remove_tags
 
 from utils.selector import Selector
 import utils.tools as tools
@@ -333,7 +334,7 @@ class DealData:
 
         content = selector.xpath(
             '//div[@class="rich_media_content "]|//div[@class="rich_media_content"]|//div[@class="share_media"]'
-        )
+        ).extract_first()
         title = (
             selector.xpath('//h2[@class="rich_media_title"]/text()')
             .extract_first(default="")
@@ -357,34 +358,26 @@ class DealData:
         publish_time = (
             tools.timestamp_to_date(publish_timestamp) if publish_timestamp else None
         )
-
-        pics_url = content.xpath(".//img/@src|.//img/@data-src").extract()
         biz = tools.get_param(req_url, "__biz")
 
-        digest = selector.re_first('var msg_desc = "(.*?)"')
-        cover = selector.re_first('var cover = "(.*?)";') or selector.re_first(
-            'msg_cdn_url = "(.*?)"'
-        )
-        source_url = selector.re_first("var msg_source_url = '(.*?)';")
-
-        content_html = content.extract_first(default="")
-        comment_id = selector.re_first('var comment_id = "(\d+)"')
+        text = remove_tags(content).strip()
+        spider_name = 'wechat'
+        collection_mode = 'spider'
+        data_source_type = '微信公众号'
 
         article_data = {
-            "account": account,
+            "data_type": account,
             "title": title,
-            "url": req_url,
+            "data_address": req_url,
             "author": author,
             "publish_time": publish_time,
             "__biz": biz,
-            "digest": digest,
-            "cover": cover,
-            "pics_url": pics_url,
-            "content_html": content_html,
-            "source_url": source_url,
-            "comment_id": comment_id,
+            "text": text,
+            "spider_name": spider_name,
+            "collection_mode": collection_mode,
+            "data_source_type": data_source_type,
             "sn": sn,
-            "spider_time": tools.get_current_date(),
+            "collection_time": tools.get_current_date(),
         }
 
         # 入库
@@ -393,60 +386,60 @@ class DealData:
 
         return self._task_manager.get_task()
 
-    def deal_article_dynamic_info(self, req_data, text):
-        """
-        取文章动态信息 阅读 点赞 评论
-        :param req_data: post 请求的data str格式
-        :param text:
-        :return:
-        """
-        data = tools.get_json(text)
-
-        dynamic_data = dict(
-            sn=tools.get_param(req_data, "sn"),
-            __biz=tools.get_param(req_data, "__biz").replace("%3D", "="),
-            read_num=data.get("appmsgstat", {}).get("read_num"),
-            like_num=data.get("appmsgstat", {}).get("like_num"),
-            comment_count=data.get("comment_count"),
-            spider_time=tools.get_current_date(),
-        )
-
-        if dynamic_data:
-            data_pipeline.save_article_dynamic(dynamic_data)
-
-    def deal_comment(self, req_url, text):
-        """
-        解析评论
-        :param req_url:
-        :param text:
-        :return:
-        """
-
-        data = tools.get_json(text)
-
-        __biz = tools.get_param(req_url, "__biz")
-
-        comment_id = tools.get_param(req_url, "comment_id")  # 与文章关联
-        elected_comment = data.get("elected_comment", [])
-
-        comment_datas = [
-            dict(
-                __biz=__biz,
-                comment_id=comment_id,
-                nick_name=comment.get("nick_name"),
-                logo_url=comment.get("logo_url"),
-                content=comment.get("content"),
-                create_time=tools.timestamp_to_date(comment.get("create_time")),
-                content_id=comment.get("content_id"),
-                like_num=comment.get("like_num"),
-                is_top=comment.get("is_top"),
-                spider_time=tools.get_current_date(),
-            )
-            for comment in elected_comment
-        ]
-
-        if comment_datas:
-            data_pipeline.save_article_commnet(comment_datas)
+    # def deal_article_dynamic_info(self, req_data, text):
+    #     """
+    #     取文章动态信息 阅读 点赞 评论
+    #     :param req_data: post 请求的data str格式
+    #     :param text:
+    #     :return:
+    #     """
+    #     data = tools.get_json(text)
+    #
+    #     dynamic_data = dict(
+    #         sn=tools.get_param(req_data, "sn"),
+    #         __biz=tools.get_param(req_data, "__biz").replace("%3D", "="),
+    #         read_num=data.get("appmsgstat", {}).get("read_num"),
+    #         like_num=data.get("appmsgstat", {}).get("like_num"),
+    #         comment_count=data.get("comment_count"),
+    #         spider_time=tools.get_current_date(),
+    #     )
+    #
+    #     if dynamic_data:
+    #         data_pipeline.save_article_dynamic(dynamic_data)
+    #
+    # def deal_comment(self, req_url, text):
+    #     """
+    #     解析评论
+    #     :param req_url:
+    #     :param text:
+    #     :return:
+    #     """
+    #
+    #     data = tools.get_json(text)
+    #
+    #     __biz = tools.get_param(req_url, "__biz")
+    #
+    #     comment_id = tools.get_param(req_url, "comment_id")  # 与文章关联
+    #     elected_comment = data.get("elected_comment", [])
+    #
+    #     comment_datas = [
+    #         dict(
+    #             __biz=__biz,
+    #             comment_id=comment_id,
+    #             nick_name=comment.get("nick_name"),
+    #             logo_url=comment.get("logo_url"),
+    #             content=comment.get("content"),
+    #             create_time=tools.timestamp_to_date(comment.get("create_time")),
+    #             content_id=comment.get("content_id"),
+    #             like_num=comment.get("like_num"),
+    #             is_top=comment.get("is_top"),
+    #             spider_time=tools.get_current_date(),
+    #         )
+    #         for comment in elected_comment
+    #     ]
+    #
+    #     if comment_datas:
+    #         data_pipeline.save_article_commnet(comment_datas)
 
     def get_task(self):
         return self._task_manager.get_task()
