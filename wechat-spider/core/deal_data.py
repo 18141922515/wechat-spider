@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on 2019/5/11 6:37 PM
----------
-@summary: 处理数据
----------
-@author:
-"""
+
 from utils.selector import Selector
 import utils.tools as tools
 from utils.log import log
@@ -19,13 +13,7 @@ class DealData:
         self._task_manager.reset_task()
 
     def __parse_account_info(self, data, req_url):
-        """
-        @summary:
-        ---------
-        @param data:
-        ---------
-        @result:
-        """
+
         __biz = tools.get_param(req_url, "__biz")
 
         regex = 'id="nickname">(.*?)</strong>'

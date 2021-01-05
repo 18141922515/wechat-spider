@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-'''
-Created on 2016-11-16 16:25
----------
-@summary: 操作redis数据库
----------
-@author: Boris
-'''
+
 
 from utils.log import log
 import redis

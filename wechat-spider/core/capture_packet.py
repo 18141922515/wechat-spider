@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-'''
-Created on 2019/5/8 10:59 PM
----------
-@summary:
----------
-@author:
-'''
+
 import re
 
 import mitmproxy

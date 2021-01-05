@@ -1,11 +1,4 @@
 # -*- coding: utf-8 -*-
-'''
-Created on 2019/5/18 9:52 PM
----------
-@summary:
----------
-@author:
-'''
 
 from core.capture_packet import WechatCapture
 from create_tables import create_table

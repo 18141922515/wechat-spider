@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-'''
-Created on 2019/5/13 12:44 AM
----------
-@summary:
----------
-@author:
-'''
+
 from db.mysqldb import MysqlDB
 import utils.tools as tools
 from utils.log import log

@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-'''
-Created on 2019/5/15 11:14 PM
----------
-@summary:
----------
-@author:
-'''
+
 
 from db.mysqldb import MysqlDB
 from db.redisdb import RedisDB

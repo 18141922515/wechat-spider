@@ -1,11 +1,4 @@
 # -*- coding: utf-8 -*-
-'''
-Created on 2019/5/20 11:47 PM
----------
-@summary:
----------
-@author:
-'''
 
 from db.mysqldb import MysqlDB
 from config import config

@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on 2018-12-08 16:50
----------
-@summary:
----------
-@author:
-"""
+
 
 import logging
 import os

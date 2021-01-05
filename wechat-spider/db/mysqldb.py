@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
-'''
-Created on 2016-11-16 16:25
----------
-@summary: 操作mysql数据库
----------
-@author: Boris
-'''
+
 import datetime
 import json
 
@@ -36,8 +30,10 @@ class MysqlDB():
     def __init__(self, ip=None, port=None, db=None, user=None, passwd=None, **kwargs):
         # 可能会改setting中的值，所以此处不能直接赋值为默认值，需要后加载赋值
         try:
-            self.connect_pool = PooledDB(creator=pymysql, mincached=1, maxcached=100, maxconnections=100, blocking=True, ping=7,
-                                         host=ip, port=port, user=user, passwd=passwd, db=db, charset='utf8mb4', cursorclass=cursors.SSCursor)  # cursorclass 使用服务的游标，默认的在多线程下大批量插入数据会使内存递增
+            self.connect_pool = PooledDB(creator=pymysql, mincached=1, maxcached=100, maxconnections=100,
+                                         blocking=True, ping=7, host=ip, port=port, user=user, passwd=passwd,
+                                         db=db, charset='utf8mb4', cursorclass=cursors.SSCursor)
+            # cursorclass 使用服务的游标，默认的在多线程下大批量插入数据会使内存递增
         except Exception as e:
             input('''
             ******************************************

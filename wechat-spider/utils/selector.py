@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
-'''
-Created on 2018-10-08 15:33:37
----------
-@summary: 重新定义 selector
----------
-@author:
-@email:
-'''
+
 import re
 
 import six
