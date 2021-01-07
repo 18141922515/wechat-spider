@@ -334,7 +334,7 @@ class DealData:
 
         content = selector.xpath(
             '//div[@class="rich_media_content "]|//div[@class="rich_media_content"]|//div[@class="share_media"]'
-        ).extract_first()
+        ).extract_first(default="")
         title = (
             selector.xpath('//h2[@class="rich_media_title"]/text()')
             .extract_first(default="")
